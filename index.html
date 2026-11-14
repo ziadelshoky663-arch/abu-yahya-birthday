@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#20130f">
+  <title>عيد ميلاد سعيد يا خالو!</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --cream: #fff0d6;
+      --muted: #d3bda5;
+      --gold: #f5c46b;
+      --coffee: #11152b;
+      --card: rgba(31, 37, 70, .8);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--cream);
+      background:
+        radial-gradient(ellipse at 50% 12%, rgba(108, 89, 190, .4), transparent 48%),
+        radial-gradient(ellipse at 10% 85%, rgba(31, 119, 153, .25), transparent 38%),
+        var(--coffee);
+      font-family: Tahoma, Arial, sans-serif;
+    }
+    body.celebration-open { overflow: hidden; }
+
+    .page {
+      position: relative;
+      display: grid;
+      min-height: 100vh;
+      place-items: center;
+      padding: 38px 20px;
+      isolation: isolate;
+    }
+
+    .glow {
+      position: fixed;
+      z-index: -1;
+      top: 50%;
+      left: 50%;
+      width: min(80vw, 680px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: rgba(151, 139, 255, .09);
+      filter: blur(55px);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .card {
+      width: min(100%, 590px);
+      padding: clamp(28px, 7vw, 58px);
+      border: 1px solid rgba(255, 240, 214, .15);
+      border-radius: 30px;
+      background: var(--card);
+      box-shadow: 0 28px 90px rgba(0, 0, 0, .35), inset 0 1px rgba(255, 255, 255, .06);
+      text-align: center;
+      backdrop-filter: blur(14px);
+      animation: arrive .8s ease-out both;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--gold);
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .13em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.4rem, 9vw, 4.7rem);
+      line-height: 1.15;
+      text-wrap: balance;
+    }
+
+    h1 span { color: var(--gold); }
+
+    .date {
+      display: inline-block;
+      margin: 20px 0 0;
+      padding: 8px 15px;
+      border: 1px solid rgba(245, 196, 107, .38);
+      border-radius: 999px;
+      color: var(--gold);
+      font-size: .95rem;
+    }
+
+    .intro, .message {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.9;
+    }
+
+    .intro { margin: 0 auto 24px; }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 25px;
+      color: #28170e;
+      background: linear-gradient(135deg, #ffdb91, #eaa84d);
+      box-shadow: 0 8px 24px rgba(234, 168, 77, .22);
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    button:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(234, 168, 77, .32); }
+    button:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+
+    .message {
+      display: none;
+      margin: 26px 0 0;
+      padding-top: 21px;
+      border-top: 1px solid rgba(255, 240, 214, .13);
+      color: var(--cream);
+      animation: arrive .6s ease-out both;
+    }
+
+    .message.show { display: block; }
+    .message strong { color: var(--gold); }
+
+    .signature {
+      margin: 17px 0 0;
+      color: var(--gold);
+      font-size: .94rem;
+    }
+
+    .card {
+      width: min(100%, 700px);
+      border-color: rgba(190, 185, 255, .2);
+      background: linear-gradient(145deg, rgba(38, 45, 86, .9), rgba(24, 28, 57, .88));
+    }
+
+    .eyebrow, .date, h1 span, .signature { color: #bdb5ff; }
+    .date { border-color: rgba(189, 181, 255, .4); }
+    .intro, .message { color: #d7d9f0; }
+
+    .orbit {
+      position: relative;
+      display: grid;
+      width: 116px;
+      height: 116px;
+      margin: 26px auto;
+      place-items: center;
+      border: 1px solid rgba(189, 181, 255, .38);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #ffdc92, #e78d76 48%, #8b70dc 78%);
+      box-shadow: 0 0 48px rgba(151, 139, 255, .32);
+      font-size: 4.2rem;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .orbit::before, .orbit::after {
+      position: absolute;
+      inset: -14px;
+      border: 1px solid rgba(189, 181, 255, .25);
+      border-radius: 50%;
+      content: "";
+      transform: rotate(-25deg) scaleY(.35);
+    }
+    .orbit::after { inset: -24px; opacity: .55; transform: rotate(30deg) scaleY(.3); }
+
+    .mission {
+      margin: 28px 0 0;
+      padding: 20px;
+      border: 1px solid rgba(189, 181, 255, .16);
+      border-radius: 22px;
+      background: rgba(12, 16, 39, .38);
+      text-align: right;
+    }
+
+    .mission h2 { margin: 0 0 7px; font-size: 1.08rem; }
+    .mission-hint { margin: 0 0 17px; color: var(--muted); font-size: .91rem; line-height: 1.7; }
+    .clues { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; direction: ltr; }
+
+    .clue {
+      min-height: 105px;
+      padding: 14px 8px;
+      direction: rtl;
+      border: 1px solid rgba(189, 181, 255, .25);
+      border-radius: 16px;
+      color: var(--cream);
+      background: rgba(71, 65, 122, .38);
+      box-shadow: none;
+      font-size: .88rem;
+      line-height: 1.5;
+    }
+
+    .clue:hover:not(:disabled) {
+      transform: translateY(-3px);
+      background: rgba(97, 88, 161, .55);
+      box-shadow: 0 10px 24px rgba(9, 10, 28, .2);
+    }
+    .clue:disabled { color: #d3cbff; background: rgba(109, 101, 172, .3); cursor: default; }
+    .clue-icon { display: block; margin-bottom: 6px; font-size: 1.65rem; }
+
+    .memory-photo {
+      display: block;
+      width: min(100%, 340px);
+      max-height: 390px;
+      margin: 15px auto 9px;
+      border: 4px solid rgba(255, 240, 214, .86);
+      border-radius: 18px;
+      object-fit: cover;
+      object-position: center 26%;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+    }
+
+    .memory-caption { margin: 0; color: var(--muted); font-size: .88rem; }
+
+    .progress { height: 6px; margin-top: 16px; overflow: hidden; border-radius: 99px; background: rgba(255, 255, 255, .1); }
+    .progress span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #9b91ff, #f5c46b); transition: width .4s ease; }
+    .progress-label { margin: 8px 0 0; color: var(--muted); font-size: .82rem; text-align: center; }
+    .quiz { margin-top: 20px; }
+    .quiz[hidden], .quiz-question[hidden] { display: none; }
+    .quiz-question {
+      margin-top: 14px;
+      padding: 18px;
+      border: 1px solid rgba(189, 181, 255, .2);
+      border-radius: 18px;
+      background: rgba(12, 16, 39, .38);
+      text-align: center;
+      animation: arrive .45s ease-out both;
+    }
+    .quiz-question h3 { margin: 0 0 14px; font-size: 1rem; line-height: 1.8; }
+    .quiz-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; }
+    .quiz-option {
+      min-width: 90px;
+      padding: 10px 16px;
+      color: var(--cream);
+      background: rgba(97, 88, 161, .55);
+      box-shadow: none;
+      font-size: .92rem;
+    }
+    .quiz-option:hover { background: rgba(123, 111, 190, .75); }
+    .quiz-option:disabled { opacity: .7; cursor: default; }
+    .quiz-feedback { min-height: 1.5em; margin: 12px 0 0; color: var(--gold); font-size: .88rem; }
+    #start-quiz, #discover-more { display: block; margin: 18px auto 0; animation: arrive .5s ease-out both; }
+    #start-quiz[hidden], #discover-more[hidden] { display: none; }
+
+    .message {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid rgba(245, 196, 107, .28);
+      border-radius: 16px;
+      background: rgba(245, 196, 107, .07);
+      text-align: center;
+    }
+    .message.show { display: block; }
+    .message strong { color: var(--gold); }
+
+    .spark {
+      position: fixed;
+      z-index: 3;
+      top: -20px;
+      width: 9px;
+      height: 13px;
+      border-radius: 2px;
+      pointer-events: none;
+      animation: fall 2.8s ease-in forwards;
+    }
+
+    .celebration-stage {
+      position: fixed;
+      z-index: 10;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 18px;
+      background: rgba(10, 12, 31, .88);
+      opacity: 0;
+      transition: opacity .55s ease;
+      backdrop-filter: blur(10px);
+    }
+    .celebration-stage[hidden] { display: none; }
+    .celebration-stage.show { opacity: 1; }
+
+    .stage-scene {
+      position: relative;
+      width: min(100%, 680px);
+      height: min(84vh, 680px);
+      min-height: 490px;
+      overflow: hidden;
+      border: 1px solid rgba(189, 181, 255, .22);
+      border-radius: 32px;
+      background:
+        radial-gradient(ellipse at 50% 68%, rgba(245, 196, 107, .24), transparent 38%),
+        radial-gradient(ellipse at 50% 10%, rgba(151, 139, 255, .28), transparent 52%),
+        linear-gradient(160deg, #242b55, #11152b 72%);
+      box-shadow: 0 24px 90px rgba(0, 0, 0, .45);
+      text-align: center;
+    }
+
+    .stage-title {
+      position: absolute;
+      z-index: 2;
+      top: 30px;
+      right: 20px;
+      left: 20px;
+      margin: 0;
+      color: #fff0d6;
+      font-size: clamp(1.35rem, 5vw, 2rem);
+      text-shadow: 0 3px 20px rgba(0, 0, 0, .25);
+    }
+
+    .stage-close {
+      position: absolute;
+      z-index: 5;
+      top: 14px;
+      left: 14px;
+      display: grid;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .25);
+      color: white;
+      background: rgba(255, 255, 255, .12);
+      box-shadow: none;
+      font-size: 1.7rem;
+    }
+
+    .cake {
+      position: absolute;
+      z-index: 2;
+      bottom: 8%;
+      left: 50%;
+      width: min(86%, 330px);
+      height: 210px;
+      transform: translate(-50%, 125%);
+    }
+    .celebration-stage.show .cake { animation: cake-rise 1.15s cubic-bezier(.2, .8, .2, 1) .18s forwards; }
+    .cake-stand {
+      position: absolute;
+      right: -8%;
+      bottom: 0;
+      left: -8%;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(#ffe5ba, #d6a5ff);
+      box-shadow: 0 8px 26px rgba(0, 0, 0, .3);
+    }
+    .cake-half {
+      position: absolute;
+      bottom: 14px;
+      width: 50%;
+      height: 150px;
+      background: linear-gradient(180deg, #f8b5cb 0 27%, #fff0d6 27% 36%, #b66b83 36% 100%);
+      box-shadow: inset 0 -12px rgba(112, 52, 89, .14), 0 10px 22px rgba(0, 0, 0, .2);
+    }
+    .cake-half-left {
+      left: 0;
+      border-radius: 90px 8px 12px 18px;
+      transform-origin: 100% 50%;
+    }
+    .cake-half-right {
+      right: 0;
+      border-radius: 8px 90px 18px 12px;
+      transform-origin: 0 50%;
+    }
+    .cake-half::before {
+      position: absolute;
+      top: -13px;
+      right: 0;
+      left: 0;
+      height: 34px;
+      border-radius: 50%;
+      background: #fff0d6;
+      content: "";
+    }
+    .cake-half::after {
+      position: absolute;
+      top: 4px;
+      right: 16%;
+      width: 12px;
+      height: 31px;
+      border-radius: 0 0 10px 10px;
+      background: #fff0d6;
+      box-shadow: -45px 3px 0 -1px #fff0d6;
+      content: "";
+    }
+    .celebration-stage.show .cake-half-left { animation: cake-split-left .95s cubic-bezier(.2, .8, .2, 1) 1.32s forwards; }
+    .celebration-stage.show .cake-half-right { animation: cake-split-right .95s cubic-bezier(.2, .8, .2, 1) 1.32s forwards; }
+
+    .candles {
+      position: absolute;
+      z-index: 1;
+      top: 10px;
+      left: 50%;
+      display: flex;
+      gap: 20px;
+      transform: translateX(-50%);
+    }
+    .candle {
+      position: relative;
+      width: 12px;
+      height: 48px;
+      border-radius: 4px 4px 2px 2px;
+      background: repeating-linear-gradient(135deg, #fff0d6 0 6px, #bdb5ff 6px 12px);
+      box-shadow: 0 0 12px rgba(255, 240, 214, .22);
+    }
+    .candle::before {
+      position: absolute;
+      top: -17px;
+      left: 2px;
+      width: 9px;
+      height: 14px;
+      border-radius: 60% 40% 60% 40%;
+      background: #ffd86e;
+      box-shadow: 0 0 18px 5px rgba(255, 197, 91, .52);
+      content: "";
+      transform: rotate(45deg);
+      animation: flicker .8s ease-in-out infinite alternate;
+    }
+
+    .balloon-bouquet {
+      position: absolute;
+      z-index: 3;
+      bottom: 30%;
+      left: 50%;
+      width: 250px;
+      height: 235px;
+      opacity: 0;
+      --bouquet-scale: 1;
+      transform: translate(-50%, 130px) scale(var(--bouquet-scale));
+    }
+    .celebration-stage.show .balloon-bouquet { animation: balloons-rise 1.5s cubic-bezier(.15, .75, .2, 1) 2.05s forwards; }
+    .balloon {
+      position: absolute;
+      top: 0;
+      width: 62px;
+      height: 78px;
+      border-radius: 50% 50% 46% 46%;
+      box-shadow: inset -9px -5px 13px rgba(0, 0, 0, .12), inset 8px 7px 14px rgba(255, 255, 255, .23), 0 8px 22px rgba(0, 0, 0, .18);
+      animation: balloon-sway 2.6s ease-in-out infinite alternate;
+    }
+    .balloon::before {
+      position: absolute;
+      bottom: -7px;
+      left: 26px;
+      border-right: 5px solid transparent;
+      border-bottom: 8px solid currentColor;
+      border-left: 5px solid transparent;
+      content: "";
+    }
+    .balloon::after {
+      position: absolute;
+      top: 14px;
+      left: 13px;
+      width: 10px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .38);
+      content: "";
+      transform: rotate(17deg);
+    }
+    .balloon-one { left: 22px; color: #f27b9b; background: #f27b9b; }
+    .balloon-two { top: -22px; left: 88px; color: #ffce68; background: #ffce68; animation-delay: -.8s; }
+    .balloon-three { left: 158px; color: #8dcbce; background: #8dcbce; animation-delay: -1.3s; }
+    .balloon-string {
+      position: absolute;
+      top: 74px;
+      left: 51px;
+      width: 1px;
+      height: 124px;
+      background: rgba(255, 240, 214, .72);
+      transform: rotate(4deg);
+      transform-origin: top;
+    }
+    .balloon-string-two { top: 52px; left: 117px; height: 146px; transform: rotate(-1deg); }
+    .balloon-string-three { top: 74px; left: 187px; height: 124px; transform: rotate(-5deg); }
+    .birthday-note {
+      position: absolute;
+      right: 50%;
+      bottom: 0;
+      display: grid;
+      width: min(270px, calc(100vw - 72px));
+      min-height: 100px;
+      padding: 14px 16px;
+      place-items: center stretch;
+      border: 2px solid #e7bd72;
+      border-radius: 15px 15px 19px 19px;
+      color: #593754;
+      background: linear-gradient(145deg, #fff6db, #ffe2bd);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, .25);
+      font-size: 1rem;
+      font-weight: 900;
+      line-height: 1.5;
+      transform: translateX(50%) rotate(-2deg);
+    }
+    .birthday-note small { justify-self: end; font-size: .75rem; font-weight: 700; }
+
+    @keyframes cake-rise {
+      to { transform: translate(-50%, 0); }
+    }
+    @keyframes cake-split-left {
+      to { transform: translateX(calc(-1 * var(--cake-split, 78px))) rotate(-8deg); }
+    }
+    @keyframes cake-split-right {
+      to { transform: translateX(var(--cake-split, 78px)) rotate(8deg); }
+    }
+    @keyframes balloons-rise {
+      0% { opacity: 0; transform: translate(-50%, 130px) scale(var(--bouquet-scale)); }
+      15% { opacity: 1; }
+      100% { opacity: 1; transform: translate(-50%, 0) scale(var(--bouquet-scale)); }
+    }
+    @keyframes balloon-sway {
+      to { translate: 5px -5px; rotate: 5deg; }
+    }
+    @keyframes flicker {
+      to { scale: .88 1.08; opacity: .8; }
+    }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-8px) rotate(2deg); }
+    }
+    @keyframes fall {
+      to { transform: translate(var(--drift), 110vh) rotate(640deg); opacity: .2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
+    @media (max-width: 430px) {
+      .card { padding: 24px 18px; }
+      .mission { padding: 14px; }
+      .clues { gap: 7px; }
+      .clue { min-height: 94px; padding: 10px 5px; font-size: .78rem; }
+      .stage-scene { min-height: 460px; }
+      .stage-scene { --cake-split: 42px; }
+      .stage-title { top: 28px; right: 64px; left: 56px; font-size: 1.35rem; }
+      .cake { width: 88%; }
+      .balloon-bouquet { --bouquet-scale: .72; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="glow" aria-hidden="true"></div>
+    <section class="card" aria-labelledby="title">
+      <p class="eyebrow">مهمة عيد الميلاد • ١٥ نوفمبر</p>
+      <h1 id="title">كل سنة وإنت طيب<br><span>يا خالو!</span></h1>
+      <p class="date">مستعد تفتح ٣ هدايا؟ 🎂</p>
+      <div class="orbit" aria-hidden="true">🎁</div>
+      <p class="intro">كل كارت مخبّي حكاية من القلب...<br>افتح التلاتة وشوف المفاجأة اللي مستنياك 🎈</p>
+      <section class="mission" aria-labelledby="mission-title">
+        <h2 id="mission-title">مهمتك يا خالو 🗺️</h2>
+        <p class="mission-hint">اتبع الطريق واكتشف التلات هدايا — آخر هدية على اليمين:</p>
+        <div class="clues">
+          <button class="clue" type="button" data-clue="memory" aria-controls="birthday-message">
+            <span class="clue-icon" aria-hidden="true">📸</span>أحلى ذكرى
+          </button>
+          <button class="clue" type="button" data-clue="wish" aria-controls="birthday-message">
+            <span class="clue-icon" aria-hidden="true">🌠</span>أمنيتي ليك
+          </button>
+          <button class="clue" type="button" data-clue="letter" aria-controls="birthday-message">
+            <span class="clue-icon" aria-hidden="true">💌</span>رسالة من القلب
+          </button>
+        </div>
+        <div class="progress" role="progressbar" aria-label="تقدم المهمة" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0">
+          <span id="progress-fill"></span>
+        </div>
+        <p class="progress-label" id="progress-label" aria-live="polite">لسه ٣ هدايا مستنيينك</p>
+        <section class="quiz" id="birthday-quiz" aria-label="أسئلة قبل المفاجأة" hidden>
+          <button id="start-quiz" type="button" aria-controls="question-one">جه وقت الاسئله يا ابو يحي العرجاني</button>
+          <div class="quiz-question" id="question-one" hidden>
+            <h3>السؤال الأول: أول الطرقة على ...............</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" type="button" data-question="one" data-answer="wrong">الشمال</button>
+              <button class="quiz-option" type="button" data-question="one" data-answer="correct">اليمين</button>
+              <button class="quiz-option" type="button" data-question="one" data-answer="wrong">في الوش</button>
+            </div>
+            <p class="quiz-feedback" id="feedback-one" aria-live="polite"></p>
+          </div>
+          <div class="quiz-question" id="question-two" hidden>
+            <h3>السؤال التاني: إيه الاسم اللي بتناديني بيه؟</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" type="button" data-question="two" data-answer="correct">حبوطه</button>
+              <button class="quiz-option" type="button" data-question="two" data-answer="wrong">محط</button>
+              <button class="quiz-option" type="button" data-question="two" data-answer="wrong">زياد</button>
+            </div>
+            <p class="quiz-feedback" id="feedback-two" aria-live="polite"></p>
+          </div>
+          <button id="discover-more" type="button" aria-controls="celebration-stage" hidden>اكتشف أكتر ✨</button>
+        </section>
+        <div class="message" id="birthday-message" aria-live="polite"></div>
+      </section>
+    </section>
+  </main>
+  <section class="celebration-stage" id="celebration-stage" role="dialog" aria-modal="true" aria-labelledby="stage-title" aria-hidden="true" hidden>
+    <div class="stage-scene">
+      <button class="stage-close" id="stage-close" type="button" aria-label="إغلاق المفاجأة">×</button>
+      <h2 class="stage-title" id="stage-title">مفاجأة لخالو 🎉</h2>
+      <div class="balloon-bouquet" aria-hidden="true">
+        <span class="balloon balloon-one"></span>
+        <span class="balloon balloon-two"></span>
+        <span class="balloon balloon-three"></span>
+        <span class="balloon-string"></span>
+        <span class="balloon-string balloon-string-two"></span>
+        <span class="balloon-string balloon-string-three"></span>
+        <div class="birthday-note">
+          <span>كل سنة وانت طيب يا خال، لو وصلت هنا يبقى جاوبت الأسئلة صح ❤️</span>
+          <small>الحبوطه الكبير</small>
+        </div>
+      </div>
+      <div class="cake" aria-hidden="true">
+        <div class="candles"><span class="candle"></span><span class="candle"></span><span class="candle"></span></div>
+        <div class="cake-half cake-half-left"></div>
+        <div class="cake-half cake-half-right"></div>
+        <div class="cake-stand"></div>
+      </div>
+    </div>
+  </section>
+  <script>
+    const message = document.querySelector("#birthday-message");
+    const clueButtons = document.querySelectorAll(".clue");
+    const progressFill = document.querySelector("#progress-fill");
+    const progressBar = document.querySelector(".progress");
+    const progressLabel = document.querySelector("#progress-label");
+    const quiz = document.querySelector("#birthday-quiz");
+    const startQuizButton = document.querySelector("#start-quiz");
+    const questionOne = document.querySelector("#question-one");
+    const questionTwo = document.querySelector("#question-two");
+    const discoverButton = document.querySelector("#discover-more");
+    const celebrationStage = document.querySelector("#celebration-stage");
+    const closeStageButton = document.querySelector("#stage-close");
+    const colors = ["#f5c46b", "#fff0d6", "#d68152", "#b8c982", "#e79aab"];
+
+    const clues = {
+      memory: '<strong>أحلى ذكرى من السنة اللي فاتت 📸</strong><img class="memory-photo" src="uncle-son.jpg" alt="خالي شايل ابنه في صورة عائلية"><p class="memory-caption">الصورة دي فيها حنية وفرحة بتفضل في القلب ❤️</p>',
+      wish: "<strong>أمنيتي ليك 🌠</strong><br>أتمنى لك سنة كلها صحة وراحة بال وفرح، وربنا يخليك لابنك وتشوفه دايمًا أسعد وأنجح واحد، وتفضل منور حياتنا وضحكتنا.",
+      letter: "<strong>رسالة من القلب 💌</strong><br>يا خالو، وجودك في حياتنا نعمة كبيرة. شكرًا على كل ضحكة وكل موقف حلو، وربنا يديمك لينا دايمًا. بنحبك جدًا!"
+    };
+
+    function celebrate() {
+      celebrationStage.hidden = false;
+      celebrationStage.setAttribute("aria-hidden", "false");
+      document.body.classList.add("celebration-open");
+      window.requestAnimationFrame(() => celebrationStage.classList.add("show"));
+      closeStageButton.focus();
+
+      for (let i = 0; i < 75; i++) {
+        const piece = document.createElement("span");
+        piece.className = "spark";
+        piece.setAttribute("aria-hidden", "true");
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.backgroundColor = colors[i % colors.length];
+        piece.style.setProperty("--drift", `${Math.random() * 180 - 90}px`);
+        piece.style.animationDelay = `${Math.random() * 650}ms`;
+        document.body.appendChild(piece);
+        piece.addEventListener("animationend", () => piece.remove(), { once: true });
+      }
+    }
+
+    function closeCelebration() {
+      celebrationStage.classList.remove("show");
+      celebrationStage.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("celebration-open");
+      window.setTimeout(() => { celebrationStage.hidden = true; }, 550);
+    }
+
+    clueButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        message.innerHTML = clues[button.dataset.clue];
+        message.classList.add("show");
+        button.disabled = true;
+
+        const opened = document.querySelectorAll(".clue:disabled").length;
+        progressFill.style.width = `${(opened / clueButtons.length) * 100}%`;
+        progressBar.setAttribute("aria-valuenow", String(opened));
+        progressLabel.textContent = opened === clueButtons.length
+          ? "فتحت الهدايا كلها! جاوب على السؤالين عشان توصل للمفاجأة 🎉"
+          : `فتحت ${opened} من ٣ هدايا`;
+
+        if (opened === clueButtons.length) {
+          message.innerHTML = clues.memory;
+          message.classList.add("show");
+          message.appendChild(quiz);
+          quiz.hidden = false;
+        }
+      });
+    });
+
+    startQuizButton.addEventListener("click", () => {
+      startQuizButton.hidden = true;
+      questionOne.hidden = false;
+    });
+
+    document.querySelectorAll(".quiz-option").forEach((option) => {
+      option.addEventListener("click", () => {
+        const question = option.dataset.question;
+        const feedback = document.querySelector(`#feedback-${question}`);
+        if (option.dataset.answer !== "correct") {
+          feedback.textContent = "مش دي 😄 جرّب تاني!";
+          return;
+        }
+
+        document.querySelectorAll(`.quiz-option[data-question="${question}"]`).forEach((answer) => {
+          answer.disabled = true;
+        });
+        feedback.textContent = "إجابة صح! 🎉";
+        if (question === "one") {
+          questionTwo.hidden = false;
+        } else {
+          discoverButton.hidden = false;
+          progressLabel.textContent = "جاوبت صح على السؤالين! اكتشف المفاجأة 🎁";
+        }
+      });
+    });
+
+    discoverButton.addEventListener("click", celebrate);
+    closeStageButton.addEventListener("click", closeCelebration);
+    celebrationStage.addEventListener("click", (event) => {
+      if (event.target === celebrationStage) closeCelebration();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !celebrationStage.hidden) closeCelebration();
+    });
+  </script>
+</body>
+</html>
